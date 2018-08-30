@@ -8,6 +8,8 @@ var {Todo} = require('./models/todo');
 
 var app = express();
 
+var port = process.PORT || 3000;
+
 app.use(bodyParser.json());
 
 app.post('/todos',(req, res) => {
@@ -31,7 +33,22 @@ app.get('/todos',(req, res) =>{
     });
 });
 
-app.listen(3000,() => {
-    console.log('Server is running on PORT:3000');
+// GET /todos/123
+app.get('/todos/:id', (req, res) => {
+    var id = req.params.id;
+
+    Todo.findById(id).then((record) => {
+        res.status(200).send({record});
+    }, (error) => {
+        res.status(404).send({
+            "error": "Record not found"
+        })
+    });
+
+
+});
+
+app.listen(port,() => {
+    console.log(`Server is running on PORT:${port}`);
 });
 
