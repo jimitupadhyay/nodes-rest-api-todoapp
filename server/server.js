@@ -8,7 +8,7 @@ var {Todo} = require('./models/todo');
 
 var app = express();
 
-var port = process.PORT || 3000;
+var port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
