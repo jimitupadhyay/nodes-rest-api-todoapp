@@ -1,4 +1,4 @@
-const {MongoClient, ObejctId} = require('mongodb');
+const {MongoClient, ObjectID} = require('mongodb');
 
 MongoClient.connect('mongodb://localhost:27017/TodoApp',(err, db) => { //using callback function to check error or get a database object
     if(err){
