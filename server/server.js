@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var {ObjectID} = require('mongodb');
 
 var {mongoose} = require('./db/mongoose');
 
@@ -37,12 +38,23 @@ app.get('/todos',(req, res) =>{
 app.get('/todos/:id', (req, res) => {
     var id = req.params.id;
 
+    if(!ObjectID.inValid(id)){
+        return res.status(404).send({
+            "msg": "ID not valid"
+        });
+    }
+
     Todo.findById(id).then((record) => {
+        if(!record){
+            return res.status(404).send({
+                "msg": "Record not found"
+            });
+        }
         res.status(200).send({record});
-    }, (error) => {
+    }).catch((e) => {
         res.status(404).send({
             "error": "Record not found"
-        })
+        });
     });
 
 
@@ -54,9 +66,26 @@ app.get('/', (req, res) => {
         res.status(200).send({
             "MSG": "Server is running "
         });
-    
+});
 
 
+//DELETE /todos/:id
+app.delete('/todos/:id', (req, res) => {
+    var id = req.params.id;
+
+    if(!ObjectID.isValid(id)){
+        return res.status(404).send({
+            "msg": "ID not valid"
+        });
+    }
+
+    Todo.findByIdAndRemove(id).then((record) => {
+        res.status(200).send({record});
+    }).catch((e) => {
+        res.status(404).send({
+            "error": "Record not found"
+        });
+    });
 });
 
 app.listen(port,() => {
