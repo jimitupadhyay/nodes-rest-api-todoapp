@@ -48,6 +48,17 @@ app.get('/todos/:id', (req, res) => {
 
 });
 
+// GET /
+app.get('/', (req, res) => {
+    
+        res.status(200).send({
+            "MSG": "Server is running "
+        });
+    
+
+
+});
+
 app.listen(port,() => {
     console.log(`Server is running on PORT:${port}`);
 });
