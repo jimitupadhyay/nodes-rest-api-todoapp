@@ -1,3 +1,5 @@
+require('./config/config');
+
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -10,7 +12,7 @@ var {Todo} = require('./models/todo');
 
 var app = express();
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT;
 
 app.use(bodyParser.json());
 
@@ -123,3 +125,4 @@ app.listen(port,() => {
     console.log(`Server is running on PORT:${port}`);
 });
 
+//heroku git:remote -a obscure-basin-81483
