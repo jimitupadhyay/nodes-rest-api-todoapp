@@ -121,6 +121,28 @@ app.patch('/todo/:id', (req, res) => {
 
 });
 
+
+
+//POST Users
+app.post("/users", (req, res) => {
+    let body = _.pick(req.body, ['email','password']);
+
+    let user = User(body);
+
+    //User.findByToken
+    
+
+
+    user.save().then(() => {
+        return user.generateAuthToken();
+       
+    }).then((token) => {
+        res.header('x-auth', token).send(user);
+    }).catch((e) => {
+    });
+});
+
+
 app.listen(port,() => {
     console.log(`Server is running on PORT:${port}`);
 });
